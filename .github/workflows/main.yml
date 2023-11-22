@@ -20,9 +20,7 @@ jobs:
 
     - name: Copy new files to data folder (overwrite existing files)
       run: |
-        rm -rf data
-        mkdir -p data  # Create the data folder if it doesn't exist
-        cp -rf data/* data/
+        git checkout main -- data
 
     - name: Commit and push changes
       run: |
