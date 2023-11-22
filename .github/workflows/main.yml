@@ -15,17 +15,12 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Setup Git
-      run: |
-        git config user.name "${{ github.actor }}"
-        git config user.email "${{ github.actor }}@users.noreply.github.com"
-
     - name: Checkout gh-pages branch
       run: git checkout gh-pages
 
     - name: Copy new files
       run: |
-        cp -r data/* .
+        cp -r data/*
 
     - name: Commit and push changes
       run: |
