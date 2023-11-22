@@ -18,9 +18,11 @@ jobs:
     - name: Checkout gh-pages branch
       run: git checkout gh-pages
 
-    - name: Copy new files
+    - name: Copy new files to data folder (overwrite existing files)
       run: |
-        cp -rf data/. data/
+        rm -rf data
+        mkdir -p data  # Create the data folder if it doesn't exist
+        cp -rf data/* data/
 
     - name: Commit and push changes
       run: |
