@@ -20,7 +20,7 @@ jobs:
 
     - name: Copy new files
       run: |
-        cp -r data/* data/
+        cp -rf data/* data/
 
     - name: Commit and push changes
       run: |
