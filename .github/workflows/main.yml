@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  sync-pages:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,10 +22,16 @@ jobs:
       run: |
         git checkout main -- data
 
-    - name: Commit and push changes
+    - name: Commit and push if changes are detected
       run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add .
-        git commit -m "Update gh-pages with new files"
-        git push --set-upstream origin gh-pages
+        if [ -n "$(git status data --porcelain)" ]; then
+          echo "Changes detected in gh-pages branch."
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add data
+          git commit -m "Update data file(s)"
+          git push
+        else
+          echo "No changes to commit and push."
+        fi
+  
