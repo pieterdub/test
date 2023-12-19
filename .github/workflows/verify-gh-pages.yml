@@ -2,7 +2,6 @@ name: Verify Github Pages deployment
 
 on:
   deployment_status:
-  page_build:
     
 jobs:
   verify-pages:
