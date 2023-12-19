@@ -1,6 +1,12 @@
 name: Verify Github Pages deployment
 
 on:
+  label:
+    types:
+      - created
+  push:
+    branches:
+      - main
   page_build:
     
 jobs:
