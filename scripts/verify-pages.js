@@ -1,4 +1,4 @@
-const Octokit = require('octokit')
+const { Octokit } = require('octokit')
 
 async function main() {
   const token = process.argv[2];
