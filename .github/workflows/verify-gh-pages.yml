@@ -1,16 +1,12 @@
 name: Verify Github Pages deployment
 
 on:
-  label:
-    types:
-      - created
-  push:
-    branches:
-      - main
+  deployment_status:
   page_build:
     
 jobs:
   verify-pages:
+    if: ${{ github.event.deployment_status.state == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
