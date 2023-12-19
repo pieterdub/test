@@ -1,11 +1,9 @@
 name: Verify Github Pages deployment
 
-on:
-  [deployment_status]
-    
+on: deployment_status
 jobs:
-  verify-pages:
-    if: ${{ github.event.deployment_status.state == 'success' }}
+  publish:
+    if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
 
     steps:
