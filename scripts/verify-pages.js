@@ -1,4 +1,4 @@
-const { Octokit } = require('octokit')
+const github = require('@actions/github')
 
 async function main() {
   const token = process.argv[2];
@@ -7,13 +7,13 @@ async function main() {
     console.log(index + ': ' + val);
   });
 
-  const octokit = new Octokit({
+  const octokit = new github.getOctokit({
     auth: token
   })
   
-  const result = await octokit.request('GET /repos/pieterdub/test/pages', {
-    owner: 'pieterdub',
-    repo: 'test',
+  const result = await octokit.request('GET /repos/{owner}/{repo}/pages/builds/latest', {
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
     headers: {
       'X-GitHub-Api-Version': '2022-11-28'
     }
