@@ -1,0 +1,20 @@
+{
+  "name": "@pieterdub/test",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "API3 dAPI management",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/api3dao/dapi-management.git"
+  },
+  "private": false,
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {
+    "node": "^21.2.0"
+  }
+}
