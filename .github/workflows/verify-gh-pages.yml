@@ -1,6 +1,13 @@
 name: Verify Github Pages deployment
 
-on: deployment_status
+on:
+  deployment_status:
+  deployment:
+  push:
+    branches:
+      - main
+  page_build:
+
 jobs:
   publish:
     if: github.event.deployment_status.state == 'success'
