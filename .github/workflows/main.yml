@@ -8,6 +8,18 @@ on:
   workflow_dispatch:
   
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   sync-pages:
     runs-on: ubuntu-latest
@@ -34,7 +46,8 @@ jobs:
         git add data
         git commit -m "Update data file(s)"
         git push
-  deploy:
+  deploy-gh-pages:
+    needs: sync-pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -52,7 +65,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-  check-status:
+  verify-gh-pages:
     needs: deploy
     runs-on: ubuntu-latest
     steps:
