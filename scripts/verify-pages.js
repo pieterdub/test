@@ -1,7 +1,17 @@
-const { Octokit } = require('octokit');
+const fetchData = async (pagesEndpoint) => {
+  try {
+    const response = await fetch(pagesEndpoint);
 
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+    // Check if the request was successful (status code 200)
+    if (response.ok) {
+      const data = await response.text();
+      console.log('GitHub Pages response:', data);
+    } else {
+      console.error('Failed to fetch GitHub Pages. Status:', response.status);
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 }
 
 async function main() {
@@ -10,45 +20,13 @@ async function main() {
   const owner = process.argv[3];
   const repo = process.argv[4];
 
-  const octokit = new Octokit({
-    auth: token,
-  });
-
   console.log('Trying to verify pages');
 
-  while (true) {
-    // Check status
-    try {
-      const result = await octokit.request('GET /repos/{owner}/{repo}/pages/builds/latest', {
-        owner,
-        repo,
-        headers: {
-          'X-GitHub-Api-Version': '2022-11-28',
-          'x-ratelimit-used': true,
-          'x-ratelimit-reset': true,
-        },
-      });
+  process.argv.forEach(function (val, index, array) {
+    console.log(index + ': ' + val);
+  });
 
-      console.log(JSON.stringify(result, null, 2))
-
-      console.log(result.data.created_at, now);
-
-      if (result.data.created_at > now) {
-        if (result.data.status === 'built') {
-          console.log('Start verifying');
-          break;
-        }
-      } else {
-        if (new Date() - startTime > 60 * 1000) {
-          console.log('Exiting loop after 1 minute without the correct result.');
-          break;
-        }
-      }
-    } catch (error) {}
-
-    // Sleep for 10 seconds
-    await sleep(15000);
-  }
+  console.log('Done');
 
 }
 

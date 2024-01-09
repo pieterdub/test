@@ -3,11 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
-    paths: >-
-      data/* | scripts/*
-  workflow_dispatch:
-  
+      - main  
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -18,6 +14,8 @@ permissions:
 jobs:
   sync-pages:
     runs-on: ubuntu-latest
+    outputs:
+      has_changes: ${{ steps.commit-step.outputs.has_changes }}
     steps:
     - name: Checkout main branch
       uses: actions/checkout@v4
@@ -29,20 +27,31 @@ jobs:
 
     - name: Sync data folder (overwrite existing files)
       run: |
-        rm -rf data
-        git checkout main -- data scripts
+        git checkout main -- data scripts package.json yarn.lock .prettierrc.js
+        echo "Unstage all files"
+        git reset
 
     - name: Commit and push if changes are detected
       id: commit-step
       run: |
-        echo "Changes detected in gh-pages branch."
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        git add data
-        git commit -m "Update data file(s)"
-        git push
+        if [ -n "$(git status data --porcelain)" ]; then
+          echo "Changes detected in gh-pages branch."
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add data
+          git commit -m "Update data file(s)"
+          git push
+
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        else
+          echo "No changes to commit and push."
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        fi
   deploy-gh-pages:
     needs: sync-pages
+    if: |
+      always() && 
+      (needs.sync-pages.result == 'success' || needs.sync-pages.result == 'skipped')
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -74,4 +83,4 @@ jobs:
     - name: Verifying pages api
       run: |
         echo "Verifying pages deployment"
-        node scripts/verify-pages.js ${{ secrets.GITHUB_TOKEN }} ${{ github.repository_owner }} ${{ github.repository }}
+        node scripts/verify-pages.js ${{ github.repositoryUrl }} ${{ github.api_url }} ${{ github.server_url }}
