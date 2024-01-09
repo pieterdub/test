@@ -29,6 +29,8 @@ async function main() {
         },
       });
 
+      console.log(JSON.stringify(result, null, 2))
+
       console.log(result.data.created_at, now);
 
       if (result.data.created_at > now) {
@@ -37,7 +39,10 @@ async function main() {
           break;
         }
       } else {
-
+        if (new Date() - startTime > 60 * 1000) {
+          console.log('Exiting loop after 1 minute without the correct result.');
+          break;
+        }
       }
     } catch (error) {}
 

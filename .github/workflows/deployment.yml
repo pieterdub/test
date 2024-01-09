@@ -4,6 +4,7 @@ on: page_build
 
 jobs:
   check-status:
+    if: github.event.build.status == 'built'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main branch
@@ -11,4 +12,4 @@ jobs:
       with:
         fetch-depth: 0
     - name: Check event
-      run: echo ${{ github.event.deployment_status }}
+      run: echo Finally

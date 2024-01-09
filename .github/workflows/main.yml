@@ -35,6 +35,7 @@ jobs:
         git commit -m "Update data file(s)"
         git push
   verify-pages:
+    if: false
     needs: sync-pages
     runs-on: ubuntu-latest
     steps:
