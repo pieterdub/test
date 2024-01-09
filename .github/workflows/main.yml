@@ -85,4 +85,4 @@ jobs:
     - name: Verifying pages api
       run: |
         echo "Verifying pages deployment"
-        node scripts/verify-pages.js ${{ github.repository_owner }} ${{ github.repository }}
+        node scripts/verify-pages.js ${{ github.repository_owner }} ${{ github.event.repository.name }}
