@@ -1,6 +1,6 @@
 name: Deployment status
 
-on: deployment_status
+on: page_build
 
 jobs:
   check-status:

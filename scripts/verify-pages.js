@@ -1,14 +1,14 @@
 const { Octokit } = require('octokit');
 
-async function main() {
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function main(now, token, owner, repo) {
   const now = new Date();
   const token = process.argv[2];
   const owner = process.argv[3];
   const repo = process.argv[4];
-
-  process.argv.forEach(function (val, index, array) {
-    console.log(index + ': ' + val);
-  });
 
   const octokit = new Octokit({
     auth: token,
@@ -25,15 +25,18 @@ async function main() {
         },
       });
 
-      console.log(result.data.created_at, now)
+      console.log(result.data.created_at, now);
 
       if (result.data.create_at > now) {
         if (deployment.status === 'succeed') {
-          console.log("Start verifying")
+          console.log('Start verifying');
           break;
         }
       }
     } catch (error) {}
+
+    // Sleep for 10 seconds
+    await sleep(15000);
   }
 
   const result = await octokit.request('GET /repos/{owner}/{repo}/pages/builds/latest', {
