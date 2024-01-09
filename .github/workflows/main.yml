@@ -11,8 +11,6 @@ on:
 jobs:
   sync-pages:
     runs-on: ubuntu-latest
-    outputs:
-      has_changes: ${{ steps.commit-step.outputs.has_changes }}
     steps:
     - name: Checkout main branch
       uses: actions/checkout@v4
@@ -22,30 +20,24 @@ jobs:
     - name: Checkout gh-pages branch
       run: git checkout gh-pages
 
-    - name: Copy new files to data folder (overwrite existing files)
+    - name: Sync data folder (overwrite existing files)
       run: |
+        rm -rf data
         git checkout main -- data scripts
 
     - name: Commit and push if changes are detected
       id: commit-step
       run: |
-        if [ -n "$(git status data --porcelain)" ]; then
-          echo "Changes detected in gh-pages branch."
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add data
-          git commit -m "Update data file(s)"
-          git push
+        echo "Changes detected in gh-pages branch."
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add data
+        git commit -m "Update data file(s)"
+        git push
 
-          echo "has_changes=true" >> $GITHUB_OUTPUT
-          
-        else
-          echo "No changes to commit and push."
-          echo "has_changes=false" >> $GITHUB_OUTPUT
-        fi
+        echo "has_changes=true" >> $GITHUB_OUTPUT
   verify-pages:
     needs: sync-pages
-    if: needs.sync-pages.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main branch
