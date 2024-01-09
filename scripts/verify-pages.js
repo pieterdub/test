@@ -14,9 +14,7 @@ async function main() {
     auth: token,
   });
 
-  const val = await octokit.request('GET /repos/{owner}/{repo}/pages/builds/latest', {
-    owner,
-    repo,
+  const val = await octokit.request(`GET /repos/${owner}/${repo}/pages/builds/latest`, {
     headers: {
       'X-GitHub-Api-Version': '2022-11-28',
       'x-ratelimit-used': true,
