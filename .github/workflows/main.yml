@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-    paths: data/*
+    paths: |
+      data/*
+      scripts/*
   workflow_dispatch:
   
 
@@ -66,7 +68,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
   verify-gh-pages:
-    needs: deploy
+    needs: deploy-gh-pages
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main branch
