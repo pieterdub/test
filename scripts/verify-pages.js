@@ -4,7 +4,7 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function main(now, token, owner, repo) {
+async function main() {
   const now = new Date();
   const token = process.argv[2];
   const owner = process.argv[3];
