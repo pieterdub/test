@@ -23,7 +23,7 @@ jobs:
     - name: Sync data folder (overwrite existing files)
       run: |
         rm -rf data
-        git checkout main -- data scripts
+        git checkout main -- data scripts .github/workflows/verify-pages.yml
 
     - name: Commit and push if changes are detected
       id: commit-step
@@ -32,22 +32,7 @@ jobs:
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add data
+        git add .github/workflows/verify-pages.yml
         git commit -m "Update data file(s)"
         git push
-  verify-pages:
-    if: false
-    needs: sync-pages
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout main branch
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Install dependencies
-      run: yarn install --frozen-lockfile
-    - name: Verifying pages api
-      run: |
-        echo "Verifying pages deployment"
-        node scripts/verify-pages.js ${{ secrets.GITHUB_TOKEN }} ${{ github.repository_owner }} ${{ github.repository }}
   
