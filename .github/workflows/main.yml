@@ -48,6 +48,10 @@ jobs:
     if: needs.sync-pages.outputs.has_changes == 'true'
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Verifying pages api
       run: |
         echo "Verifying pages deployment"
