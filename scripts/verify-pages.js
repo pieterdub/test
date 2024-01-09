@@ -26,7 +26,7 @@ async function main() {
     console.log(index + ': ' + val);
   });
 
-  const result = await fetchData(`${baseUrl}`)
+  const result = await fetchData(`${baseUrl}/data/test.json`)
 
   console.log(JSON.stringify(result, null, 2),'Done');
 
