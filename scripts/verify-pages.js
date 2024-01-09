@@ -14,7 +14,7 @@ async function main() {
     auth: token,
   });
 
-  console.log('Trying to verify pages', result);
+  console.log('Trying to verify pages');
 
   while (true) {
     // Check status
