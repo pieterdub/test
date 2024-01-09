@@ -1,0 +1,14 @@
+name: Deployment status
+
+on: deployment_status
+
+jobs:
+  check-status:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout main branch
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Check event
+      run: echo ${{ github.event.deployment_status }}
