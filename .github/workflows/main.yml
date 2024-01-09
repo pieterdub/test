@@ -50,7 +50,7 @@ jobs:
   deploy-gh-pages:
     needs: sync-pages
     if: |
-      always() && 
+      always() && needs.sync-pages.outputs.has_changes == 'true' &&
       (needs.sync-pages.result == 'success' || needs.sync-pages.result == 'skipped')
     environment:
       name: github-pages
@@ -83,4 +83,4 @@ jobs:
     - name: Verifying pages api
       run: |
         echo "Verifying pages deployment"
-        node scripts/verify-pages.js ${{ github.repositoryUrl }} ${{ github.api_url }} ${{ github.server_url }}
+        node scripts/verify-pages.js ${{ github.repository_owner }} ${{ github.repository }}

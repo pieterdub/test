@@ -15,18 +15,20 @@ const fetchData = async (pagesEndpoint) => {
 }
 
 async function main() {
-  const now = new Date();
-  const token = process.argv[2];
-  const owner = process.argv[3];
-  const repo = process.argv[4];
+  const owner = process.argv[2];
+  const repo = process.argv[3];
 
   console.log('Trying to verify pages');
+
+  const baseUrl = `https://${owner}.github.io/${repo}`
 
   process.argv.forEach(function (val, index, array) {
     console.log(index + ': ' + val);
   });
 
-  console.log('Done');
+  const result = await fetchData(`${baseUrl}`)
+
+  console.log(JSON.stringify(result, null, 2),'Done');
 
 }
 
