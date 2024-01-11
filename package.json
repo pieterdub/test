@@ -18,8 +18,14 @@
   "devDependencies": {},
   "dependencies": {
     "@actions/github": "^6.0.0",
+    "@api3/airnode-node": "^0.13.0",
+    "@api3/airnode-protocol-v1": "^2.10.0",
+    "@openzeppelin/merkle-tree": "^1.0.5",
+    "@api3/api-integrations": "^0.0.1",
     "node": "^21.2.0",
     "octokit": "^3.1.2",
+    "ethers": "^5.7.2",
+    "lodash": "^4.17.21",
     "prettier": "^3.1.1"
   }
 }
