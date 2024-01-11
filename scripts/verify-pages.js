@@ -1,8 +1,8 @@
 const assert = require('node:assert');
 const forEach = require('lodash/forEach');
-const dAPIManagementCurrentHashData = require('../../data/dapi-management-merkle-tree-root/current-hash.json');
-const dAPIPricingCurrentHashData = require('../../data/dapi-pricing-merkle-tree-root/current-hash.json');
-const signedApiCurrentHashData = require('../../data/signed-api-merkle-tree-root/current-hash.json');
+const dAPIManagementCurrentHashData = require('../data/dapi-management-merkle-tree-root/current-hash.json');
+const dAPIPricingCurrentHashData = require('../data/dapi-pricing-merkle-tree-root/current-hash.json');
+const signedApiCurrentHashData = require('../data/signed-api-merkle-tree-root/current-hash.json');
 
 const DAPI_MANAGEMENT_SUBFOLDER = 'dapi-management-merkle-tree-root';
 const DAPI_PRICING_SUBFOLDER = 'dapi-pricing-merkle-tree-root';
