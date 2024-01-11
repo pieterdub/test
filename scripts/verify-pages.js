@@ -3,6 +3,7 @@ const forEach = require('lodash/forEach');
 const dAPIManagementCurrentHashData = require('../data/dapi-management-merkle-tree-root/current-hash.json');
 const dAPIPricingCurrentHashData = require('../data/dapi-pricing-merkle-tree-root/current-hash.json');
 const signedApiUrlCurrentHashData = require('../data/signed-api-url-merkle-tree-root/current-hash.json');
+const { logSuccessMessage } = require('./utils');
 
 const DAPI_MANAGEMENT_SUBFOLDER = 'dapi-management-merkle-tree-root';
 const DAPI_PRICING_SUBFOLDER = 'dapi-pricing-merkle-tree-root';
@@ -39,6 +40,8 @@ async function main() {
   forEach(Object.keys(subfolderDataMapping), async (merkleTree) => {
     await assertCurrentHashData(merkleTree, baseUrl);
   });
+
+  logSuccessMessage('Successfully verified gh pages');
 }
 
 async function assertCurrentHashData(merkleTree, baseUrl) {

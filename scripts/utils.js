@@ -64,6 +64,10 @@ function deriveSponsorWalletAddress(dapiNameInBytes32) {
   return airnodeHdNode.derivePath(deriveWalletPathFromSponsorAddress(sponsorAddress, PROTOCOL_ID_AIRSEEKER)).address;
 }
 
+function logSuccessMessage(message) {
+  console.log('\x1b[32m%s\x1b[0m', `\u2713 ${message}`);
+}
+
 module.exports = {
   createDapiManagementMerkleTree,
   createDapiPricingMerkleTree,
@@ -75,4 +79,5 @@ module.exports = {
   deriveDataFeedId,
   deriveBeaconSetId,
   deriveSponsorWalletAddress,
+  logSuccessMessage,
 };
