@@ -68,8 +68,10 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main-verify-gh-pages branch
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Checkout gh-pages branch
         run: git checkout gh-pages
       - name: Setup Pages
