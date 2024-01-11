@@ -2,16 +2,16 @@ const assert = require('node:assert');
 const forEach = require('lodash/forEach');
 const dAPIManagementCurrentHashData = require('../data/dapi-management-merkle-tree-root/current-hash.json');
 const dAPIPricingCurrentHashData = require('../data/dapi-pricing-merkle-tree-root/current-hash.json');
-const signedApiCurrentHashData = require('../data/signed-api-merkle-tree-root/current-hash.json');
+const signedApiUrlCurrentHashData = require('../data/signed-api-url-merkle-tree-root/current-hash.json');
 
 const DAPI_MANAGEMENT_SUBFOLDER = 'dapi-management-merkle-tree-root';
 const DAPI_PRICING_SUBFOLDER = 'dapi-pricing-merkle-tree-root';
-const SIGNED_API_SUBFOLDER = 'signed-api-url-merkle-tree-root';
+const SIGNED_API_URL_SUBFOLDER = 'signed-api-url-merkle-tree-root';
 
 const subfolderDataMapping = {
   [DAPI_MANAGEMENT_SUBFOLDER]: dAPIManagementCurrentHashData,
   [DAPI_PRICING_SUBFOLDER]: dAPIPricingCurrentHashData,
-  [SIGNED_API_SUBFOLDER]: signedApiCurrentHashData,
+  [SIGNED_API_URL_SUBFOLDER]: signedApiUrlCurrentHashData,
 };
 
 const fetchData = async (pagesEndpoint) => {
@@ -20,8 +20,8 @@ const fetchData = async (pagesEndpoint) => {
 
     // Check if the request was successful (status code 200)
     if (response.ok) {
-      const data = await response.text();
-      console.log('GitHub Pages response:', data);
+      const data = await response.json();
+      return data;
     } else {
       console.error('Failed to fetch GitHub Pages. Status:', response.status);
     }
