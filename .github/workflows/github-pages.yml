@@ -86,7 +86,6 @@ jobs:
         uses: actions/deploy-pages@v4
   verify-gh-pages:
     needs: deploy-gh-pages
-    if: always()
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main-verify-gh-pages branch
