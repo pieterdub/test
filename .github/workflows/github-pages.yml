@@ -62,7 +62,7 @@ jobs:
         fi
   deploy-gh-pages:
     needs: sync-data
-    if: always() && needs.sync-data.outputs.has_changes == 'true'
+    if: needs.sync-data.outputs.has_changes == 'true'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -86,9 +86,7 @@ jobs:
         uses: actions/deploy-pages@v4
   verify-gh-pages:
     needs: deploy-gh-pages
-    if: |
-      always() &&
-      (needs.deploy-gh-pages.result == 'success' || needs.deploy-gh-pages.result == 'skipped')
+    if: always()
     runs-on: ubuntu-latest
     steps:
     - name: Checkout main-verify-gh-pages branch
