@@ -1,7 +1,0 @@
-[
-  {"name": "abc", "email": "abc@example.com"},
-  {"name": "xyz", "email": "xyz@example.com"},
-  {"name": "xyz", "email": "xyz@example.com"},
-  {"name": "pieter", "email": "xyz@awesome.coms"},
-  {"name": "verify", "email": "that@it-work.com"}
-]
