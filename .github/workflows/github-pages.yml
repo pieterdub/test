@@ -17,11 +17,13 @@ jobs:
     outputs:
       has_changes: ${{ steps.commit-step.outputs.has_changes }}
     steps:
-    - name: Checkout gh-pages branch
+    - name: Fetch all history for all tags and branches
       uses: actions/checkout@v4
       with:
-        ref: gh-pages
         fetch-depth: 0
+
+    - name: Checkout gh-pages branch
+      run: git checkout gh-pages
 
     - name: Copy required files
       run: |
@@ -66,11 +68,12 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main-verify-gh-pages branch
+      - name: Fetch all history for all tags and branches
         uses: actions/checkout@v4
         with:
-          ref: gh-pages
           fetch-depth: 0
+      - name: Checkout gh-pages branch
+        run: git checkout gh-pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
@@ -83,12 +86,12 @@ jobs:
         uses: actions/deploy-pages@v4
   verify-gh-pages:
     needs: deploy-gh-pages
+    if: always()
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout main-verify-gh-pages branch
+    - name: Fetch all history for all tags and branches
       uses: actions/checkout@v4
       with:
-        ref: main-verify-gh-pages
         fetch-depth: 0
 
     - name: Install dependencies
