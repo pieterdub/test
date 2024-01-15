@@ -3,7 +3,7 @@ name: Deploy and Verify GitHub Pages
 on:
   push:
     branches:
-      - main-verify-gh-pages
+      - main
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -28,7 +28,7 @@ jobs:
     - name: Copy required files
       run: |
         rm -rf data
-        git checkout main-verify-gh-pages -- data scripts package.json yarn.lock .prettierrc.js
+        git checkout main -- data scripts package.json yarn.lock .prettierrc.js
         echo "Unstage all files"
         git reset
 
