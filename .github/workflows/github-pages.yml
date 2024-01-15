@@ -17,13 +17,11 @@ jobs:
     outputs:
       has_changes: ${{ steps.commit-step.outputs.has_changes }}
     steps:
-    - name: Fetch all history for all tags and branches
+    - name: Checkout gh-pages branch
       uses: actions/checkout@v4
       with:
+        ref: gh-pages
         fetch-depth: 0
-
-    - name: Checkout gh-pages branch
-      run: git checkout gh-pages
 
     - name: Copy required files
       run: |
