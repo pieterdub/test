@@ -26,7 +26,7 @@ jobs:
     - name: Copy required files
       run: |
         rm -rf data
-        git checkout main -- data scripts package.json yarn.lock .prettierrc.js
+        git checkout origin/main -- data scripts package.json yarn.lock .prettierrc.js
         echo "Unstage all files"
         git reset
 
