@@ -17,13 +17,11 @@ jobs:
     outputs:
       has_changes: ${{ steps.commit-step.outputs.has_changes }}
     steps:
-    - name: Checkout main-verify-gh-pages branch
+    - name: Checkout gh-pages branch
       uses: actions/checkout@v4
       with:
+        ref: gh-pages
         fetch-depth: 0
-
-    - name: Checkout gh-pages branch
-      run: git checkout gh-pages
 
     - name: Copy required files
       run: |
@@ -71,9 +69,8 @@ jobs:
       - name: Checkout main-verify-gh-pages branch
         uses: actions/checkout@v4
         with:
+          ref: gh-pages
           fetch-depth: 0
-      - name: Checkout gh-pages branch
-        run: git checkout gh-pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
@@ -91,6 +88,7 @@ jobs:
     - name: Checkout main-verify-gh-pages branch
       uses: actions/checkout@v4
       with:
+        ref: main-verify-gh-pages
         fetch-depth: 0
 
     - name: Install dependencies

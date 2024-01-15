@@ -4,6 +4,7 @@
   "signatures": {},
   "merkleTreeValues": [
     ["0xc52EeA00154B4fF1EbbF8Ba39FDe37F1AC3B9Fd4", "https://example.com"],
+    ["0xbC6471E88d8aFe936A45bEB8bd20a210EBEF6822", "https://example.wtf"],
     ["0xbC6471E88d8aFe936A45bEB8bd20a210EBEF6822", "https://example.wtf"]
   ]
 }
