@@ -10,7 +10,7 @@ permissions:
   contents: write
   pages: write
   id-token: write
-  
+
 jobs:
   sync-data:
     runs-on: ubuntu-latest
@@ -39,18 +39,18 @@ jobs:
     - name: Install dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Run dapi pricing split script
-      run: node scripts/split-dapi-pricing.js
+    - name: Run generate gh pages script
+      run: node scripts/generate-gh-pages-data.js
 
     - name: Commit and push if changes are detected
       id: commit-step
       run: |
-        if [ -n "$(git status data --porcelain)" ]; then
+        if [ -n "$(git status market hash-register --porcelain)" ]; then
           echo "Changes detected in gh-pages branch."
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add data
-          git commit -m "Update data file(s)"
+          git add market hash-register
+          git commit -m "Update gh pages file(s)"
           git push
 
           echo "has_changes=true" >> $GITHUB_OUTPUT
@@ -58,6 +58,7 @@ jobs:
           echo "No changes to commit and push."
           echo "has_changes=false" >> $GITHUB_OUTPUT
         fi
+
   deploy-gh-pages:
     needs: sync-data
     if: needs.sync-data.outputs.has_changes == 'true'
@@ -66,12 +67,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch all history for all tags and branches
+      - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
+          ref: gh-pages
           fetch-depth: 0
-      - name: Checkout gh-pages branch
-        run: git checkout gh-pages
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
@@ -82,19 +82,21 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
   verify-gh-pages:
     needs: deploy-gh-pages
-    if: always()
+    if: |
+      always() &&
+      (needs.deploy-gh-pages.result == 'success' || needs.deploy-gh-pages.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
-    - name: Fetch all history for all tags and branches
+    - name: Checkout main branch
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
     - name: Install dependencies
       run: yarn install --frozen-lockfile
     - name: Verifying pages api
       run: |
         echo "Verifying pages deployment"
-        node scripts/verify-pages.js ${{ github.repository_owner }} ${{ github.event.repository.name }}
+        node scripts/verify-pages.js
