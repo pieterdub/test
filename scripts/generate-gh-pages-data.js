@@ -8,6 +8,7 @@ const dAPIManagementCurrentHashData = require('../data/dapi-management-merkle-tr
 const dAPIPricingCurrentHashData = require('../data/dapi-pricing-merkle-tree-root/current-hash.json');
 const signedApiUrlCurrentHashData = require('../data/signed-api-url-merkle-tree-root/current-hash.json');
 const packageInfo = require('../package.json');
+const { pick } = require('lodash');
 
 async function generateGHPagesData() {
   await generateMarketData();
@@ -36,7 +37,24 @@ async function generateMarketData() {
 async function generateHashRegisterData() {
   const outputPath = path.join(__dirname, '..', 'hash-register');
 
-  await fs.promises.mkdir(outputPath, { recursive: true });
+  const allMerkleTypes = {
+    'dapi-management-merkle': pick(dAPIManagementCurrentHashData, ['hash', 'timestamp']),
+    'dapi-pricing-merkle': pick(dAPIPricingCurrentHashData, ['hash', 'timestamp']),
+    'signed-api-url-merkle': pick(signedApiUrlCurrentHashData, ['hash', 'timestamp']),
+  };
+
+  const allMerkleTypesPath = path.join(outputPath, 'all-merkle-types');
+  await fs.promises.mkdir(allMerkleTypesPath, { recursive: true });
+  fs.writeFileSync(`${allMerkleTypesPath}/data.json`, JSON.stringify(allMerkleTypes, null, 4));
+
+  const managementDataPath = path.join(outputPath, 'dapi-management-merkle');
+  await fs.promises.mkdir(managementDataPath, { recursive: true });
+  fs.writeFileSync(`${managementDataPath}/current-hash.json`, JSON.stringify(dAPIManagementCurrentHashData, null, 4));
+
+  const signedApiDataPath = path.join(outputPath, 'signed-api-url-merkle');
+  await fs.promises.mkdir(signedApiDataPath, { recursive: true });
+  fs.writeFileSync(`${signedApiDataPath}/current-hash.json`, JSON.stringify(signedApiUrlCurrentHashData, null, 4));
+
   fs.writeFileSync(`${outputPath}/version.json`, JSON.stringify(packageInfo.version, null, 4));
 }
 
