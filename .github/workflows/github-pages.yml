@@ -49,9 +49,7 @@ jobs:
           echo "Changes detected in gh-pages branch."
           git config user.name github-actions
           git config user.email github-actions@github.com
-          echo "Delete data files"
-          rm -rf data
-          git add market hash-register data
+          git add market hash-register
           git commit -m "Update gh pages file(s)"
           git push
 
