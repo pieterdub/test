@@ -4,7 +4,6 @@ const dAPIManagementCurrentHashData = require ('../data/dapi-management-merkle-t
 const dAPIPricingCurrentHashData = require ('../data/dapi-pricing-merkle-tree-root/current-hash.json');
 const signedApiUrlCurrentHashData = require ('../data/signed-api-url-merkle-tree-root/current-hash.json');
 const packageInfo = require ('../package.json');
-const { logSuccessMessage } = require ('./verification/utils');
 const { pick } = require ('lodash');
 
 const DAPI_MANAGEMENT_SUBFOLDER = 'dapi-management-merkle';
@@ -39,8 +38,6 @@ async function main() {
 
   await assertMarketEndpoints(baseUrl);
   await assertHashRegisterEndpoints(baseUrl);
-
-  logSuccessMessage('Successfully verified gh pages');
 }
 
 async function assertMarketEndpoints(baseUrl) {
@@ -80,7 +77,7 @@ async function assertHashRegisterEndpoints(baseUrl) {
   };
 
   const ghPageAllTypesResult = (await fetchData(`${baseUrl}/hash-register/all-merkle-types/data.json`));
-  assert.equal(
+  assert.deepEqual(
     allMerkleTypes,
     ghPageAllTypesResult,
     `Expected gh pages hash register all merkle types to match data in local current-hash.json files`
