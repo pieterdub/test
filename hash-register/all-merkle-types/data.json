@@ -1,14 +1,17 @@
 {
   "dapi-management-merkle": {
     "hash": "0x7f397427923fbd6455933bf10263cf6e00b9e300adebea38fde30317676f8820",
-    "timestamp": 1704726214
+    "timestamp": 1704726214,
+    "signatures": {}
   },
   "dapi-pricing-merkle": {
     "hash": "0xa82a766e5f5c13098c50b02c800b6c52dad3fe2d0970add3f8bf412cb919b690",
-    "timestamp": 1701250126
+    "timestamp": 1701250126,
+    "signatures": {}
   },
   "signed-api-url-merkle": {
     "hash": "0x390d436d0960ea57fa940a5afa16d96e61ff78e83d726662d847440cdb10498d",
-    "timestamp": 1676940000
+    "timestamp": 1676940000,
+    "signatures": {}
   }
 }
