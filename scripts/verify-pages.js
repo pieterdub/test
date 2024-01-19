@@ -5,7 +5,6 @@ const dAPIPricingCurrentHashData = require ('../data/dapi-pricing-merkle-tree-ro
 const signedApiUrlCurrentHashData = require ('../data/signed-api-url-merkle-tree-root/current-hash.json');
 const packageInfo = require ('../package.json');
 const { logSuccessMessage } = require ('./verification/utils');
-const { CurrentHashData } = require ('./utils');
 const { pick } = require ('lodash');
 
 const DAPI_MANAGEMENT_SUBFOLDER = 'dapi-management-merkle';
