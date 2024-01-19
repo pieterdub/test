@@ -26,7 +26,7 @@ jobs:
     - name: Copy required files
       run: |
         rm -rf data
-        git checkout origin/main -- data scripts package.json yarn.lock .prettierrc.js
+        git checkout origin/main -- data scripts package.json yarn.lock .prettierrc.js 404.md
         echo "Unstage all files"
         git reset
 
@@ -45,11 +45,11 @@ jobs:
     - name: Commit and push if changes are detected
       id: commit-step
       run: |
-        if [ -n "$(git status market hash-register --porcelain)" ]; then
+        if [ -n "$(git status market hash-register 404.md --porcelain)" ]; then
           echo "Changes detected in gh-pages branch."
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add market hash-register
+          git add market hash-register 404.md
           git commit -m "Update gh pages file(s)"
           git push
 
