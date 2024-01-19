@@ -37,10 +37,11 @@ async function generateMarketData() {
 async function generateHashRegisterData() {
   const outputPath = path.join(__dirname, '..', 'hash-register');
 
+  const includedMerkleFields = ['hash', 'timestamp', 'signatures']
   const allMerkleTypes = {
-    'dapi-management-merkle': pick(dAPIManagementCurrentHashData, ['hash', 'timestamp']),
-    'dapi-pricing-merkle': pick(dAPIPricingCurrentHashData, ['hash', 'timestamp']),
-    'signed-api-url-merkle': pick(signedApiUrlCurrentHashData, ['hash', 'timestamp']),
+    'dapi-management-merkle': pick(dAPIManagementCurrentHashData, includedMerkleFields),
+    'dapi-pricing-merkle': pick(dAPIPricingCurrentHashData, includedMerkleFields),
+    'signed-api-url-merkle': pick(signedApiUrlCurrentHashData, includedMerkleFields),
   };
 
   const allMerkleTypesPath = path.join(outputPath, 'all-merkle-types');
