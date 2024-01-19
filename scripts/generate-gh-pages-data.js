@@ -23,11 +23,11 @@ async function generateMarketData() {
   const outputPath = path.join(__dirname, '..', 'market');
 
   const managementDataPath = path.join(outputPath, 'dapi-management-merkle');
-  await fs.promises.mkdir(managementDataPath, { recursive: true });
+  fs.mkdirSync(managementDataPath, { recursive: true });
   const pricingDataPath = path.join(outputPath, 'dapi-pricing-merkle');
-  await fs.promises.mkdir(pricingDataPath, { recursive: true });
+  fs.mkdirSync(pricingDataPath, { recursive: true });
   const signedApiDataPath = path.join(outputPath, 'signed-api-url-merkle');
-  await fs.promises.mkdir(signedApiDataPath, { recursive: true });
+  fs.mkdirSync(signedApiDataPath, { recursive: true });
 
   writeMarketData(`${managementDataPath}/data.json`, dAPIManagementCurrentHashData);
   writeMarketData(`${pricingDataPath}/data.json`, dAPIPricingCurrentHashData);
@@ -44,15 +44,15 @@ async function generateHashRegisterData() {
   };
 
   const allMerkleTypesPath = path.join(outputPath, 'all-merkle-types');
-  await fs.promises.mkdir(allMerkleTypesPath, { recursive: true });
+  fs.mkdirSync(allMerkleTypesPath, { recursive: true });
   fs.writeFileSync(`${allMerkleTypesPath}/data.json`, JSON.stringify(allMerkleTypes, null, 4));
 
   const managementDataPath = path.join(outputPath, 'dapi-management-merkle');
-  await fs.promises.mkdir(managementDataPath, { recursive: true });
+  fs.mkdirSync(managementDataPath, { recursive: true });
   fs.writeFileSync(`${managementDataPath}/current-hash.json`, JSON.stringify(dAPIManagementCurrentHashData, null, 4));
 
   const signedApiDataPath = path.join(outputPath, 'signed-api-url-merkle');
-  await fs.promises.mkdir(signedApiDataPath, { recursive: true });
+  fs.mkdirSync(signedApiDataPath, { recursive: true });
   fs.writeFileSync(`${signedApiDataPath}/current-hash.json`, JSON.stringify(signedApiUrlCurrentHashData, null, 4));
 
   fs.writeFileSync(`${outputPath}/version.json`, JSON.stringify(packageInfo.version, null, 4));
@@ -101,7 +101,7 @@ async function splitPricingValues() {
 
       const chainPath = path.join(outputPath, chainId);
       const filePath = path.join(chainPath, `${dapiName}.json`);
-      await fs.promises.mkdir(chainPath, { recursive: true });
+      fs.mkdirSync(chainPath, { recursive: true });
       fs.writeFileSync(filePath, JSON.stringify(content, null, 4));
     }
   }

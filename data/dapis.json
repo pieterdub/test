@@ -320,6 +320,14 @@
     "providers": ["coinpaprika", "dxfeed", "finage", "kaiko", "ncfx", "nodary", "twelvedata"]
   },
   {
+    "name": "ETHx/ETH Exchange Rate",
+    "metadata": {
+      "prefix": "",
+      "category": "LSD Exchange Rates"
+    },
+    "providers": ["nodary"]
+  },
+  {
     "name": "EUR/USD",
     "metadata": {
       "prefix": "$",
@@ -584,6 +592,14 @@
     "providers": ["coinpaprika", "dxfeed", "finage", "kaiko", "ncfx", "nodary", "twelvedata"]
   },
   {
+    "name": "MATICx/MATIC Exchange Rate",
+    "metadata": {
+      "prefix": "",
+      "category": "LSD Exchange Rates"
+    },
+    "providers": ["nodary"]
+  },
+  {
     "name": "META/USD",
     "metadata": {
       "prefix": "$",
@@ -720,6 +736,14 @@
     "providers": ["dxfeed", "finage", "finnhub", "ncfx", "nodary", "tradermade", "twelvedata"]
   },
   {
+    "name": "QQQ/USD",
+    "metadata": {
+      "prefix": "$",
+      "category": "Equities"
+    },
+    "providers": ["dxfeed", "finnhub", "iexcloud", "nodary", "twelvedata"]
+  },
+  {
     "name": "RDNT/USD",
     "metadata": {
       "prefix": "$",
@@ -848,12 +872,28 @@
     "providers": ["dxfeed", "finage", "finnhub", "nodary", "twelvedata"]
   },
   {
+    "name": "stETH/USD",
+    "metadata": {
+      "prefix": "$",
+      "category": "Cryptocurrency"
+    },
+    "providers": ["coinpaprika", "finage", "kaiko", "nodary", "twelvedata"]
+  },
+  {
     "name": "STG/USD",
     "metadata": {
       "prefix": "$",
       "category": "Cryptocurrency"
     },
     "providers": ["coinpaprika", "dxfeed", "finage", "kaiko", "ncfx", "nodary", "twelvedata"]
+  },
+  {
+    "name": "stMATIC/MATIC Exchange Rate",
+    "metadata": {
+      "prefix": "",
+      "category": "LSD Exchange Rates"
+    },
+    "providers": ["nodary"]
   },
   {
     "name": "STX/USD",
