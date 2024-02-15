@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -46,12 +47,12 @@ jobs:
     - name: Commit and push if changes are detected
       id: commit-step
       run: |
-        if [ -n "$(git status market hash-register --porcelain)" ]; then
+        if [ -n "$(git status market --porcelain)" ]; then
           echo "Changes detected in gh-pages branch."
           git config user.name github-actions
           git config user.email github-actions@github.com
           echo "Stage directories that could change GitHub Pages"
-          git add market hash-register
+          git add market
           git commit -m "Update GitHub pages file(s)"
           git push
 
