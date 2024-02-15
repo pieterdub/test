@@ -1,5 +1,5 @@
 {
-  "merkleTreeRoot": "0xa82a766e5f5c13098c50b02c800b6c52dad3fe2d0970add3f8bf412cb919b690",
+  "merkleRoot": "0xa82a766e5f5c13098c50b02c800b6c52dad3fe2d0970add3f8bf412cb919b690",
   "leaves": [
     {
       "value": [
