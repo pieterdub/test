@@ -25,8 +25,9 @@ jobs:
 
     - name: Copy required files
       run: |
-        rm -rf data
-        git checkout origin/main -- data scripts package.json yarn.lock .prettierrc.js 404.md
+        echo "Removing all existing files to cater for deletions"
+        git rm -rf .
+        git checkout origin/main -- data scripts package.json yarn.lock .prettierrc.js
         echo "Unstage all files"
         git reset
 
@@ -39,18 +40,19 @@ jobs:
     - name: Install dependencies
       run: yarn install --frozen-lockfile
 
-    - name: Run generate gh pages script
+    - name: Run generate GitHub pages script
       run: node scripts/generate-gh-pages-data.js
 
     - name: Commit and push if changes are detected
       id: commit-step
       run: |
-        if [ -n "$(git status market hash-register 404.md --porcelain)" ]; then
+        if [ -n "$(git status market hash-register --porcelain)" ]; then
           echo "Changes detected in gh-pages branch."
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add market hash-register 404.md
-          git commit -m "Update gh pages file(s)"
+          echo "Stage directories that could change GitHub Pages"
+          git add market hash-register
+          git commit -m "Update GitHub pages file(s)"
           git push
 
           echo "has_changes=true" >> $GITHUB_OUTPUT

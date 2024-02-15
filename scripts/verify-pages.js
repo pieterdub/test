@@ -1,21 +1,7 @@
-const assert = require ('node:assert');
-const { go } = require ('@api3/promise-utils');
-const dAPIManagementCurrentHashData = require ('../data/dapi-management-merkle-tree-root/current-hash.json');
-const dAPIPricingCurrentHashData = require ('../data/dapi-pricing-merkle-tree-root/current-hash.json');
-const signedApiUrlCurrentHashData = require ('../data/signed-api-url-merkle-tree-root/current-hash.json');
-const packageInfo = require ('../package.json');
-const { pick } = require ('lodash');
-
-const DAPI_MANAGEMENT_SUBFOLDER = 'dapi-management-merkle';
-const DAPI_PRICING_SUBFOLDER = 'dapi-pricing-merkle';
-const SIGNED_API_URL_SUBFOLDER = 'signed-api-url-merkle';
-
-
-const subfolderDataMapping = {
-  [DAPI_MANAGEMENT_SUBFOLDER]: dAPIManagementCurrentHashData,
-  [DAPI_PRICING_SUBFOLDER]: dAPIPricingCurrentHashData,
-  [SIGNED_API_URL_SUBFOLDER]: signedApiUrlCurrentHashData,
-};
+const assert = require('node:assert');
+const { go } = require('@api3/promise-utils');
+const dapiPricingCurrentHashData = require('../data/dapi-pricing-merkle-tree-root/current-hash.json');
+const { logSuccessMessage } = require('./verification/utils');
 
 async function fetchData(endpoint) {
   const result = await go(async () => {
@@ -36,51 +22,22 @@ async function fetchData(endpoint) {
 async function main() {
   const baseUrl = 'https://pieterdub.github.io/test';
 
-  await assertMarketEndpoints(baseUrl);
-  await assertHashRegisterEndpoints(baseUrl);
+  await assertPricingEndpoints(baseUrl);
+
+  logSuccessMessage('Successfully verified gh pages');
 }
 
-async function assertMarketEndpoints(baseUrl) {
-  await assertMerkleData(DAPI_PRICING_SUBFOLDER, `${baseUrl}/market/${DAPI_PRICING_SUBFOLDER}/data.json`);
-  await assertMerkleData(DAPI_MANAGEMENT_SUBFOLDER, `${baseUrl}/market/${DAPI_MANAGEMENT_SUBFOLDER}/data.json`);
-  await assertMerkleData(SIGNED_API_URL_SUBFOLDER, `${baseUrl}/market/${SIGNED_API_URL_SUBFOLDER}/data.json`);
-}
-
-async function assertMerkleData(merkleTree, endpoint) {
-  const data = subfolderDataMapping[merkleTree];
-
-  const ghPageResult = (await fetchData(endpoint));
+async function assertPricingEndpoints(baseUrl) {
+  const ghPageResult = (await fetchData(`${baseUrl}/market/dapi-pricing-merkle/data.json`));
   assert.equal(
-    data.timestamp,
+    dapiPricingCurrentHashData.timestamp,
     ghPageResult.timestamp,
-    `Expected gh pages ${merkleTree} timestamp to match timestamp in local current-hash.json`
+    `Expected gh pages dapi-pricing-merkle timestamp to match timestamp in local current-hash.json`
   );
   assert.equal(
-    data.hash,
+    dapiPricingCurrentHashData.hash,
     ghPageResult.hash,
-    `Expected gh pages ${merkleTree} hash to match hash in local current-hash.json`
-  );
-}
-
-async function assertHashRegisterEndpoints(baseUrl) {
-  const ghPageResult = (await fetchData(`${baseUrl}/hash-register/version.json`));
-  assert.equal(
-    packageInfo.version,
-    ghPageResult,
-    `Expected gh pages hash register version to match version in local package.json`
-  );
-
-  const allMerkleTypes = {
-    'dapi-management-merkle': pick(dAPIManagementCurrentHashData, ['hash', 'timestamp']),
-    'dapi-pricing-merkle': pick(dAPIPricingCurrentHashData, ['hash', 'timestamp']),
-    'signed-api-url-merkle': pick(signedApiUrlCurrentHashData, ['hash', 'timestamp']),
-  };
-
-  const ghPageAllTypesResult = (await fetchData(`${baseUrl}/hash-register/all-merkle-types/data.json`));
-  assert.deepEqual(
-    allMerkleTypes,
-    ghPageAllTypesResult,
-    `Expected gh pages hash register all merkle types to match data in local current-hash.json files`
+    `Expected gh pages dapi-pricing-merkle hash to match hash in local current-hash.json`
   );
 }
 

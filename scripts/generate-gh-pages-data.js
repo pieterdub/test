@@ -4,74 +4,36 @@ const { promisify } = require('util');
 const { exec } = require('child_process');
 const { ethers } = require('ethers');
 const { createDapiPricingMerkleTree } = require('./utils');
-const dAPIManagementCurrentHashData = require('../data/dapi-management-merkle-tree-root/current-hash.json');
-const dAPIPricingCurrentHashData = require('../data/dapi-pricing-merkle-tree-root/current-hash.json');
-const signedApiUrlCurrentHashData = require('../data/signed-api-url-merkle-tree-root/current-hash.json');
-const packageInfo = require('../package.json');
-const { pick } = require('lodash');
+
+const dapiPricingCurrentHashData = require('../data/dapi-pricing-merkle-tree-root/current-hash.json');
+
 
 async function generateGHPagesData() {
-  await generateMarketData();
+  await generatePricingRootData();
   await splitPricingValues();
-  await generateHashRegisterData();
 
   const execute = promisify(exec);
   await execute('yarn format');
 }
 
-async function generateMarketData() {
+async function generatePricingRootData() {
   const outputPath = path.join(__dirname, '..', 'market');
 
-  const managementDataPath = path.join(outputPath, 'dapi-management-merkle');
-  fs.mkdirSync(managementDataPath, { recursive: true });
   const pricingDataPath = path.join(outputPath, 'dapi-pricing-merkle');
   fs.mkdirSync(pricingDataPath, { recursive: true });
-  const signedApiDataPath = path.join(outputPath, 'signed-api-url-merkle');
-  fs.mkdirSync(signedApiDataPath, { recursive: true });
 
-  writeMarketData(`${managementDataPath}/data.json`, dAPIManagementCurrentHashData);
-  writeMarketData(`${pricingDataPath}/data.json`, dAPIPricingCurrentHashData);
-  writeMarketData(`${signedApiDataPath}/data.json`, signedApiUrlCurrentHashData);
-}
-
-async function generateHashRegisterData() {
-  const outputPath = path.join(__dirname, '..', 'hash-register');
-
-  const includedMerkleFields = ['hash', 'timestamp', 'signatures']
-  const allMerkleTypes = {
-    'dapi-management-merkle': pick(dAPIManagementCurrentHashData, includedMerkleFields),
-    'dapi-pricing-merkle': pick(dAPIPricingCurrentHashData, includedMerkleFields),
-    'signed-api-url-merkle': pick(signedApiUrlCurrentHashData, includedMerkleFields),
-  };
-
-  const allMerkleTypesPath = path.join(outputPath, 'all-merkle-types');
-  fs.mkdirSync(allMerkleTypesPath, { recursive: true });
-  fs.writeFileSync(`${allMerkleTypesPath}/data.json`, JSON.stringify(allMerkleTypes, null, 4));
-
-  const managementDataPath = path.join(outputPath, 'dapi-management-merkle');
-  fs.mkdirSync(managementDataPath, { recursive: true });
-  fs.writeFileSync(`${managementDataPath}/current-hash.json`, JSON.stringify(dAPIManagementCurrentHashData, null, 4));
-
-  const signedApiDataPath = path.join(outputPath, 'signed-api-url-merkle');
-  fs.mkdirSync(signedApiDataPath, { recursive: true });
-  fs.writeFileSync(`${signedApiDataPath}/current-hash.json`, JSON.stringify(signedApiUrlCurrentHashData, null, 4));
-
-  fs.writeFileSync(`${outputPath}/version.json`, JSON.stringify(packageInfo.version, null, 4));
-}
-
-function writeMarketData(path, currentDataHash) {
   const data = {
-    timestamp: currentDataHash.timestamp,
-    hash: currentDataHash.hash,
+    timestamp: dapiPricingCurrentHashData.timestamp,
+    hash: dapiPricingCurrentHashData.hash,
   };
 
-  fs.writeFileSync(path, JSON.stringify(data, null, 4));
+  fs.writeFileSync(`${pricingDataPath}/data.json`, JSON.stringify(data, null, 4));
 }
 
 async function splitPricingValues() {
   const outputPath = path.join(__dirname, '..', 'market', 'dapi-pricing-merkle');
 
-  const { merkleTreeValues } = dAPIPricingCurrentHashData;
+  const { merkleTreeValues } = dapiPricingCurrentHashData;
 
   const tree = createDapiPricingMerkleTree(merkleTreeValues);
   const valuesByChainAndDapiName = {};
@@ -98,7 +60,7 @@ async function splitPricingValues() {
   for (const chainId in valuesByChainAndDapiName) {
     for (const dapiName in valuesByChainAndDapiName[chainId]) {
       const valueCollection = valuesByChainAndDapiName[chainId][dapiName];
-      const content = { merkleTreeRoot: tree.root, leaves: valueCollection };
+      const content = { merkleRoot: tree.root, leaves: valueCollection };
 
       const chainPath = path.join(outputPath, chainId);
       const filePath = path.join(chainPath, `${dapiName}.json`);
